@@ -24,15 +24,14 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id_category` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id_category`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table antoine_forum.category : ~0 rows (environ)
+-- Listage des données de la table antoine_forum.category : ~4 rows (environ)
 INSERT INTO `category` (`id_category`, `name`) VALUES
-	(1, 'General'),
-	(2, 'Help needed'),
-	(3, 'Rate my setup'),
-	(4, 'Humor/Meme'),
-	(5, 'Troubleshooting');
+	(1, 'Rate my setup'),
+	(2, 'Help wanted'),
+	(3, 'Troubleshooting'),
+	(4, 'Misc');
 
 -- Listage de la structure de table antoine_forum. post
 CREATE TABLE IF NOT EXISTS `post` (
