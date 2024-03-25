@@ -46,7 +46,6 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function displayTopic($id) {
-
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
@@ -79,5 +78,38 @@ class ForumController extends AbstractController implements ControllerInterface{
                 "posts" => $posts
             ]
         ];
+    }
+
+    public function createTopic() {
+        $categoryManager = new CategoryManager();
+        // récupérer la liste de toutes les catégories grâce à la méthode findAll de Manager.php (triés par nom)
+        $categories = $categoryManager->findAll(["name", "DESC"]);
+
+        // le controller communique avec la vue "listCategories" (view) pour lui envoyer la liste des catégories (data)
+        return [
+            "view" => VIEW_DIR."forum/topics/createTopic.php",
+            "meta_description" => "List of categories",
+            "data" => [
+                "categories" => $categories
+            ]
+        ];
+    }
+
+    public function submitTopic() {
+        $category = filter_input(INPUT_POST,"inputCategory", FILTER_VALIDATE_INT);
+        $title = filter_input(INPUT_POST,"inputTile", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $content= filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if($category && $title && $content){
+            return [
+                "view" => VIEW_DIR."forum/topics/listTopics.php",
+                "meta_description" => "bing bong",
+                "data" => [
+                    "category" => $category,
+                    "title" => $title,
+                    "content" => $content
+                ]
+            ];
+        }
     }
 }
