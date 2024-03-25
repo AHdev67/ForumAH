@@ -10,7 +10,11 @@ use App\Entity;
 final class User extends Entity{
 
     private $id_user;
-    private $nickName;
+    private $username;
+    private $email;
+    private $password;
+    private $registerDate;
+    private $bio;
 
     public function __construct($data){         
         $this->hydrate($data);        
@@ -34,24 +38,96 @@ final class User extends Entity{
     }
 
     /**
-     * Get the value of nickName
+     * Get the value of username
      */ 
-    public function getNickName(){
-        return $this->nickName;
+    public function getUsername(){
+        return $this->username;
     }
 
     /**
-     * Set the value of nickName
+     * Set the value of username
      *
      * @return  self
      */ 
-    public function setNickName($nickName){
-        $this->nickName = $nickName;
+    public function setUsername($username){
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail(){
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email){
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     */ 
+    public function getPassword(){
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */ 
+    public function setPassword($password){
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of registerDate
+     */ 
+    public function getRegisterDate(){
+        return $this->registerDate;
+    }
+
+    /**
+     * Set the value of registerDate
+     *
+     * @return  self
+     */ 
+    public function setRegisterDate($registerDate){
+        $this->registerDate = $registerDate;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of bio
+     */ 
+    public function getBio(){
+        return $this->bio;
+    }
+
+    /**
+     * Set the value of bio
+     *
+     * @return  self
+     */ 
+    public function setBio($bio){
+        $this->bio = $bio;
 
         return $this;
     }
 
     public function __toString() {
-        return $this->nickName;
+        return $this->username;
     }
 }

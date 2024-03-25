@@ -73,6 +73,24 @@ final class Topic extends Entity{
     }
 
     /**
+     * Get the value of creationDate
+     */ 
+    public function getCreationDate(){
+        return $this->creationDate;
+    }
+
+    /**
+     * Set the value of creationDate
+     *
+     * @return  self
+     */ 
+    public function setCreationDate($creationDate){
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
      * Get the value of user
      */ 
     public function getUser(){
@@ -86,6 +104,42 @@ final class Topic extends Entity{
      */ 
     public function setUser($user_id){
         $this->user_id = $user_id;
+        return $this;
+    }
+
+    /**
+     * Get the value of category_id
+     */ 
+    public function getCategory_id(){
+        return $this->category_id;
+    }
+
+    /**
+     * Set the value of category_id
+     *
+     * @return  self
+     */ 
+    public function setCategory_id($category_id){
+        $this->category_id = $category_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of closed
+     */ 
+    public function getClosed(){
+        return $this->closed;
+    }
+
+    /**
+     * Set the value of closed
+     *
+     * @return  self
+     */ 
+    public function setClosed($closed){
+        $this->closed = $closed;
+
         return $this;
     }
 
