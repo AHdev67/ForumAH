@@ -22,7 +22,8 @@
 
         <div>
             <p>
-                "<?= $topic->getTitle() ?>", posted in <?= $topic->getCategory() ?>
+                "<a href="index.php?ctrl=forum&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic->getTitle() ?></a>", 
+                posted in <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory() ?>"><?= $topic->getCategory() ?></a>
             </p>
         </div>
 
@@ -37,7 +38,7 @@
     foreach($posts as $post) { ?>
 
         <div>
-            "<?= $post->getContent() ?>", posted in <?= $post->getTopic() ?>
+            "<?= $post->getContent() ?>", posted in <a href="index.php?ctrl=forum&action=displayTopic&id=<?= $post->getTopic()->getId() ?>"><?= $post->getTopic() ?></a>
         </div>
 
     <?php } ?>
