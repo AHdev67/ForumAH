@@ -24,7 +24,7 @@
                             <?php
                             if(App\Session::isAdmin()){
                                 ?>
-                                <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
+                                <a href="index.php?ctrl=home&action=users">User list</a>
                             <?php } ?>
                         </div>
                         <div id="nav-right">
@@ -41,6 +41,7 @@
                                 <a href="index.php?ctrl=security&action=login">Log in</a>
                                 <a href="index.php?ctrl=security&action=register">Register</a>
                                 <a href="index.php?ctrl=forum&action=index">Categories</a>
+                                <a href="index.php?ctrl=home&action=users">User list</a>
                             <?php
                             }
                         ?>
