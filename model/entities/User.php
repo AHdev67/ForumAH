@@ -109,24 +109,6 @@ final class User extends Entity{
         return $this;
     }
 
-    /**
-     * Get the value of bio
-     */ 
-    public function getBio(){
-        return $this->bio;
-    }
-
-    /**
-     * Set the value of bio
-     *
-     * @return  self
-     */ 
-    public function setBio($bio){
-        $this->bio = $bio;
-
-        return $this;
-    }
-
     public function __toString() {
         return $this->username;
     }
