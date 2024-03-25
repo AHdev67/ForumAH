@@ -5,11 +5,11 @@
 
 <div id="topicHeader">
     <h1>
-        <?= $topic["title"] ?>
+        <?= $topic->getTitle() ?>
     </h1>
 
     <p>
-        <?= $topic["content"] ?>
+        <?= $topic->getContent() ?>
     </p>
 
     <p>
@@ -23,7 +23,7 @@
 
         <div>
             <p>
-                <?= $post["content"] ?>
+                <?= $post->getContent() ?>
             </p>
             <p>
                 By : <?= $post->getUser() ?>
