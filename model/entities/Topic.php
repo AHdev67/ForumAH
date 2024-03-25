@@ -13,8 +13,8 @@ final class Topic extends Entity{
     private $title;
     private $content;
     private $creationDate;
-    private $user_id;
-    private $category_id;
+    private $user;
+    private $category;
     private $closed;
 
     public function __construct($data){         
@@ -94,7 +94,7 @@ final class Topic extends Entity{
      * Get the value of user
      */ 
     public function getUser(){
-        return $this->user_id;
+        return $this->user;
     }
 
     /**
@@ -102,16 +102,16 @@ final class Topic extends Entity{
      *
      * @return  self
      */ 
-    public function setUser($user_id){
-        $this->user_id = $user_id;
+    public function setUser($user){
+        $this->user = $user;
         return $this;
     }
 
     /**
      * Get the value of category_id
      */ 
-    public function getCategory_id(){
-        return $this->category_id;
+    public function getCategory(){
+        return $this->category;
     }
 
     /**
@@ -119,8 +119,8 @@ final class Topic extends Entity{
      *
      * @return  self
      */ 
-    public function setCategory_id($category_id){
-        $this->category_id = $category_id;
+    public function setCategory($category){
+        $this->category = $category;
 
         return $this;
     }
