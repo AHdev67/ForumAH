@@ -54,6 +54,24 @@ final class Topic extends Entity{
     }
 
     /**
+     * Get the value of creationDate
+     */ 
+    public function getCreationDate(){
+        return $this->creationDate;
+    }
+
+    /**
+     * Set the value of creationDate
+     *
+     * @return  self
+     */ 
+    public function setCreationDate($creationDate){
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
      * Get the value of user
      */ 
     public function getUser(){
@@ -67,6 +85,24 @@ final class Topic extends Entity{
      */ 
     public function setUser($user_id){
         $this->user_id = $user_id;
+        return $this;
+    }
+
+    /**
+     * Get the value of topic_id
+     */ 
+    public function getTopic_id(){
+        return $this->topic_id;
+    }
+
+    /**
+     * Set the value of topic_id
+     *
+     * @return  self
+     */ 
+    public function setTopic_id($topic_id){
+        $this->topic_id = $topic_id;
+
         return $this;
     }
 
