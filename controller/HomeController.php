@@ -24,7 +24,7 @@ class HomeController extends AbstractController implements ControllerInterface {
         return [
             "view" => VIEW_DIR."security/users.php",
             // "meta_description" => "Liste des utilisateurs du forum",
-            "data" => [ 
+            "data" => [
                 "users" => $users 
             ]
         ];
