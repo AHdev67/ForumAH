@@ -2,7 +2,18 @@
     $categories = $result["data"]['categories']; 
 ?>
 
-<form action="" method="post">
+<form action="add" method="post">
+
+    <div>
+        <span>Category : </span><br>
+        <?php
+        foreach($categories as $category) { ?>
+            <p>
+                <input type="checkbox" value="<?= $category->getId() ?>" name="<?= "category".$category->getID() ?>" id="<?= $category->getID() ?>">
+                <label for="<?= $category->getID() ?>"><?= $category->getName() ?></label>
+            </p>
+        <?php } ?>
+    </div>
 
     <div>
         <label for="titleInput">Title : </label>
@@ -10,14 +21,10 @@
     </div>
 
     <div>
-        <label for=""></label>
-        <select name="inputCategory" id="categoryInput">
-            <option value="" disabled selected>Select category</option>
-            <?php
-            foreach($categories as $category){ ?>
-                <option value="<?= $category["id_category"] ?>"><?= $category["name"] ?></option>
-            <?php } ?>
-        </select>
+        <label for="contentInput">Object : </label>
+        <textarea name="inputContent" id="contentInput" cols="30" rows="10" placeholder="Object of your topic"></textarea>
     </div>
+
+    <input type="submit" name="submitTopic" id="topicSubmit" value="Post">
 
 </form>
