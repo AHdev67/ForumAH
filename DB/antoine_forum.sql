@@ -45,9 +45,12 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `topic` (`topic_id`) USING BTREE,
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`),
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table antoine_forum.post : ~0 rows (environ)
+INSERT INTO `post` (`id_post`, `content`, `creationDate`, `user_id`, `topic_id`) VALUES
+	(1, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2024-03-25 13:54:16', 1, 1),
+	(2, 'Bien dit !', '2024-03-25 13:54:35', 2, 1);
 
 -- Listage de la structure de table antoine_forum. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -63,22 +66,26 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `user` (`user_id`) USING BTREE,
   CONSTRAINT `topic_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
   CONSTRAINT `topic_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table antoine_forum.topic : ~0 rows (environ)
+INSERT INTO `topic` (`id_topic`, `title`, `content`, `creationDate`, `category_id`, `user_id`, `closed`) VALUES
+	(1, 'aaa', 'aaaaaaaaaaaaaaaaaaa', '2024-03-25 13:53:52', 3, 1, NULL);
 
 -- Listage de la structure de table antoine_forum. user
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
-  `nickName` varchar(50) NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `creationDate` datetime NOT NULL,
-  `bio` text,
+  `registerDate` datetime NOT NULL,
   PRIMARY KEY (`id_user`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table antoine_forum.user : ~0 rows (environ)
+INSERT INTO `user` (`id_user`, `username`, `email`, `password`, `registerDate`) VALUES
+	(1, 'Bingus', 'bingus.contact@gmail.com', 'bngs42', '2024-03-25 13:52:41'),
+	(2, 'John PHP', 'john.php@hotmail.com', '12345', '2024-03-25 13:53:37');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
