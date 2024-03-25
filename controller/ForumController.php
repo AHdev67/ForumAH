@@ -7,6 +7,7 @@ use App\ControllerInterface;
 use Model\Managers\CategoryManager;
 use Model\Managers\TopicManager;
 use Model\Managers\PostManager;
+use Model\Managers\UserManager;
 
 class ForumController extends AbstractController implements ControllerInterface{
 
@@ -20,7 +21,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         // le controller communique avec la vue "listCategories" (view) pour lui envoyer la liste des catégories (data)
         return [
             "view" => VIEW_DIR."forum/categories/listCategories.php",
-            "meta_description" => "Liste des catégories du forum",
+            "meta_description" => "List of categories",
             "data" => [
                 "categories" => $categories
             ]
@@ -36,7 +37,7 @@ class ForumController extends AbstractController implements ControllerInterface{
 
         return [
             "view" => VIEW_DIR."forum/topics/listTopics.php",
-            "meta_description" => "Liste des topics par catégorie : ".$category,
+            "meta_description" => "List of topics per category : ".$category,
             "data" => [
                 "category" => $category,
                 "topics" => $topics
@@ -49,13 +50,32 @@ class ForumController extends AbstractController implements ControllerInterface{
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
-        $posts = $topicManager->findTopicsByCategory($id);
+        $posts = $postManager->findPostsByTopic($id);
 
         return [
             "view" => VIEW_DIR."forum/topics/displayTopic.php",
-            "meta_description" => "Liste des réponses à un topic : ".$topic,
+            "meta_description" => "Topic page with all answers by other users : ".$topic,
             "data" => [
                 "topic" => $topic,
+                "posts" => $posts
+            ]
+        ];
+    }
+
+    public function displayUser($id) {
+        $userManager = new UserManager();
+        $postManager = new PostManager();
+        $topicManager = new TopicManager();
+        $user = $userManager->findOneById($id);
+        $topics = $topicManager->findTopicsByUser($id);
+        $posts = $postManager->findPostByUser($id);
+
+        return [
+            "view" => VIEW_DIR."security/displayUser.php",
+            "meta_description" => "List of topics and posts by a user : ".$user,
+            "data" => [
+                "user" => $user,
+                "topics" => $topics,
                 "posts" => $posts
             ]
         ];
