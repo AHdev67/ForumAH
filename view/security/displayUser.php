@@ -22,7 +22,7 @@
 
         <div>
             <p>
-                "<a href="index.php?ctrl=forum&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic->getTitle() ?></a>", 
+                <a href="index.php?ctrl=topic&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic->getTitle() ?></a>, 
                 posted in <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory() ?>"><?= $topic->getCategory() ?></a>
             </p>
         </div>
@@ -32,13 +32,21 @@
 
 <div id="userPosts">
     <p>
-        Answers by this user :
+        Replies by this user :
     </p>
     <?php
     foreach($posts as $post) { ?>
 
         <div>
-            "<?= $post->getContent() ?>", posted in <a href="index.php?ctrl=forum&action=displayTopic&id=<?= $post->getTopic()->getId() ?>"><?= $post->getTopic() ?></a>
+            "<?= $post->getContent() ?>", posted in 
+            <?php
+            if($post->getTopic()){ ?>
+                <a href="index.php?ctrl=topic&action=displayTopic&id=<?= $post->getTopic()->getId() ?>"><?= $post->getTopic() ?></a>
+            <?php }
+            else { ?>
+                <span>(topic deleted)</span>
+            <?php } ?>
+                
         </div>
 
     <?php } ?>
