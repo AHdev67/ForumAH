@@ -36,41 +36,45 @@ INSERT INTO `category` (`id_category`, `name`) VALUES
 -- Listage de la structure de table antoine_forum. post
 CREATE TABLE IF NOT EXISTS `post` (
   `id_post` int NOT NULL AUTO_INCREMENT,
-  `content` text NOT NULL,
-  `creationDate` datetime NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int NOT NULL,
-  `topic_id` int NOT NULL,
+  `topic_id` int DEFAULT NULL,
   PRIMARY KEY (`id_post`) USING BTREE,
   KEY `user` (`user_id`) USING BTREE,
   KEY `topic` (`topic_id`) USING BTREE,
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`),
-  CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table antoine_forum.post : ~2 rows (environ)
 INSERT INTO `post` (`id_post`, `content`, `creationDate`, `user_id`, `topic_id`) VALUES
-	(1, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2024-03-25 13:54:16', 1, 1),
-	(2, 'Bien dit !', '2024-03-25 13:54:35', 2, 1);
+	(4, 'You will perish.', '2024-03-26 14:43:39', 2, 3),
+	(5, 'Anyone got spare change ?', '2024-03-26 15:05:30', 2, 4),
+	(6, 'Binbong', '2024-03-26 16:42:24', 2, NULL),
+	(7, 'Dingdong', '2024-03-26 16:42:33', 2, NULL);
 
 -- Listage de la structure de table antoine_forum. topic
 CREATE TABLE IF NOT EXISTS `topic` (
   `id_topic` int NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `content` text NOT NULL,
-  `creationDate` datetime NOT NULL,
+  `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `category_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `closed` binary(50) DEFAULT NULL,
+  `closed` binary(50) NOT NULL,
   PRIMARY KEY (`id_topic`) USING BTREE,
   KEY `category` (`category_id`) USING BTREE,
   KEY `user` (`user_id`) USING BTREE,
   CONSTRAINT `topic_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
   CONSTRAINT `topic_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table antoine_forum.topic : ~1 rows (environ)
+-- Listage des données de la table antoine_forum.topic : ~2 rows (environ)
 INSERT INTO `topic` (`id_topic`, `title`, `content`, `creationDate`, `category_id`, `user_id`, `closed`) VALUES
-	(1, 'aaa', 'aaaaaaaaaaaaaaaaaaa', '2024-03-25 13:53:52', 3, 1, NULL);
+	(3, 'I am John PHP', 'And i come for war.', '2024-03-26 14:43:02', 4, 2, _binary 0x3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000),
+	(4, 'New computer :)', 'No more money :(', '2024-03-26 15:03:07', 1, 2, _binary 0x3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000),
+	(6, 'My thing don&#039;t work', 'Why my thing don&#039;t work ??\r\n\r\nHlep !', '2024-03-26 16:55:42', 3, 2, _binary 0x3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
 
 -- Listage de la structure de table antoine_forum. user
 CREATE TABLE IF NOT EXISTS `user` (
