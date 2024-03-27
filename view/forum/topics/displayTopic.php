@@ -17,7 +17,10 @@
     </p>
 
     <div>
-        <i class="fa-solid fa-pen-to-square"></i>
+        <a href="index.php?ctrl=topic&action=displayModTopicForm&id=<?= $topic->getID() ?>">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+        
     </div>
 
     <div>
@@ -65,7 +68,7 @@
 </div>
 
 <div>  
-    <form action="index.php?ctrl=topic&action=createPost&id=<?= $topic->getID() ?>" method="post">
+    <form action="index.php?ctrl=topic&action=addPost&id=<?= $topic->getID() ?>" method="post">
 
         <div>
             <label for="contentInput">Your reply : </label>

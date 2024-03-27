@@ -2,7 +2,7 @@
     $categories = $result["data"]['categories']; 
 ?>
 
-<form action="index.php?ctrl=topic&action=createTopic" method="post">
+<form action="index.php?ctrl=topic&action=addTopic" method="post">
 
     <div>
         <span>Category : </span><br>

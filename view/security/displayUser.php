@@ -18,16 +18,25 @@
         Topics by this user :
     </p>
     <?php
-    foreach($topics as $topic){ ?>
+    if($topics){
+        foreach($topics as $topic){ ?>
 
-        <div>
-            <p>
-                <a href="index.php?ctrl=topic&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic->getTitle() ?></a>, 
-                posted in <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory() ?>"><?= $topic->getCategory() ?></a>
-            </p>
-        </div>
+            <div>
+                <p>
+                    <a href="index.php?ctrl=topic&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic->getTitle() ?></a>, 
+                    posted in <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory() ?>"><?= $topic->getCategory() ?></a>
+                </p>
+            </div>
+    <?php } 
+    }
+    else{ ?>
+        <p>
+            This user has no topics as of right now.
+        </p>
+    <?php } ?>
+    
 
-   <?php } ?>
+   
 </div>
 
 <div id="userPosts">
@@ -35,7 +44,8 @@
         Replies by this user :
     </p>
     <?php
-    foreach($posts as $post) { ?>
+    if($posts){
+        foreach($posts as $post) { ?>
 
         <div>
             "<?= $post->getContent() ?>", posted in 
@@ -49,5 +59,12 @@
                 
         </div>
 
+    <?php } 
+    }
+    else{ ?>
+        <p>
+            This user has made no replies as of right now.
+        </p>
     <?php } ?>
+    
 </div>

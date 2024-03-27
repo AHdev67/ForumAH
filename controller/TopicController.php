@@ -12,6 +12,10 @@ use Model\Managers\UserManager;
 
 class TopicController extends AbstractController implements ControllerInterface{
 
+
+//------------------------------------------------------------------TOPIC MAIN METHODS------------------------------------------------------------------
+
+    // DISPLAY TOPIC PAGE
     public function displayTopic($id) {
         $postManager = new PostManager();
         $topicManager = new TopicManager();
@@ -28,7 +32,8 @@ class TopicController extends AbstractController implements ControllerInterface{
         ];
     }
 
-    public function DisplayTopicForm() {
+    // DISPLAY TOPIC CREATION FORM
+    public function displayTopicForm() {
         $categoryManager = new CategoryManager();
         // récupérer la liste de toutes les catégories grâce à la méthode findAll de Manager.php (triés par nom)
         $categories = $categoryManager->findAll(["name", "DESC"]);
@@ -43,7 +48,8 @@ class TopicController extends AbstractController implements ControllerInterface{
         ];
     }
 
-    public function createTopic() {
+    // ADD NEW TOPIC TO DB
+    public function addTopic() {
         $topicManager = new TopicManager();
 
         if (isset($_POST["submit"])) {
@@ -68,6 +74,7 @@ class TopicController extends AbstractController implements ControllerInterface{
         }
     }
 
+    //DELETE TOPIC
     public function deleteTopic($id){
         $topicManager = new TopicManager;
 
@@ -76,7 +83,51 @@ class TopicController extends AbstractController implements ControllerInterface{
         $this->redirectTo("forum", "listTopicsByCategory");
     }
 
-    public function createPost($id){
+    // DISPLAY TOPIC MODIFICATION FORM
+    public function displayModTopicForm($id){
+        $categoryManager = new CategoryManager();
+        $categories = $categoryManager->findAll(["name", "DESC"]);
+
+        $topicManager = new TopicManager();
+        $topic = $topicManager->findOneById($id);
+
+        return [
+            "view" => VIEW_DIR."forum/topics/modifyTopic.php",
+            "meta_description" => "Topic modification",
+            "data" => [
+                "categories" => $categories,
+                "topic" => $topic
+            ]
+        ];
+    }
+
+    // SUBMIT TOPIC UPDATE
+    public function submitTopicUpdate($id) {
+        $topicManager = new TopicManager();
+        $topic = $topicManager->findOneById($id);
+
+        if (isset($_POST["submit"])) {
+            $title = filter_input(INPUT_POST,"inputTitle", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $content = filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $category = filter_input(INPUT_POST,"inputCategory", FILTER_VALIDATE_INT);
+            
+            if($title && $content && $category) {
+                $topicUpdateData = [
+                    "title = ".$title,
+                    "content = ".$content,
+                    "category_id = ".$category,
+                ];
+
+                $topicManager->updateTopic($topicUpdateData, $id);
+
+                $this->redirectTo("topic", "displayTopic", $id);
+            }
+        }
+    }
+
+//------------------------------------------------------------------TOPIC REPLIES METHODS------------------------------------------------------------------
+
+    public function addPost($id){
         $postManager = new PostManager();
 
         if(isset($_POST['submit'])) {
