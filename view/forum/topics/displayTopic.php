@@ -46,7 +46,10 @@
                 </p>
 
                 <div>
-                    <i class="fa-solid fa-pen-to-square"></i>
+                    <a href="index.php?ctrl=topic&action=displayModPostForm&id=<?= $post->getID() ?>">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    
                 </div>
 
                 <div>
@@ -75,7 +78,7 @@
             <textarea name="inputContent" id="contentInput" cols="30" rows="10" placeholder="Enter text here"></textarea>
         </div>
 
-        <input type="submit" name="submit" id="postSubmit">
+        <input type="submit" name="submit" id="postSubmit" value="Post">
 
     </form>
 </div>

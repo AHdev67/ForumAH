@@ -34,6 +34,6 @@
         <textarea name="inputContent" id="contentInput" cols="30" rows="10" placeholder="Object of your topic" ><?= $topic->getContent() ?></textarea>
     </div>
 
-    <input type="submit" name="submit" id="topicSubmit" value="Post">
+    <input type="submit" name="submit" id="topicSubmit" value="Update">
 
 </form>
