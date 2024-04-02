@@ -112,11 +112,10 @@ class TopicController extends AbstractController implements ControllerInterface{
             $category = filter_input(INPUT_POST,"inputCategory", FILTER_VALIDATE_INT);
             
             if($title && $content && $category) {
-                $topicUpdateData = [
-                    "title = ".$title,
-                    "content = ".$content,
-                    "category_id = ".$category,
-                ];
+                $topicUpdateData =
+                    "title = '".$title."', 
+                    content = '".$content."', 
+                    category_id = '".$category."'";
 
                 $topicManager->updateTopic($topicUpdateData, $id);
 
@@ -125,7 +124,7 @@ class TopicController extends AbstractController implements ControllerInterface{
         }
     }
 
-//------------------------------------------------------------------TOPIC REPLIES METHODS------------------------------------------------------------------
+//------------------------------------------------------------------TOPIC POSTS METHODS------------------------------------------------------------------
 
     public function addPost($id){
         $postManager = new PostManager();
@@ -154,5 +153,39 @@ class TopicController extends AbstractController implements ControllerInterface{
         $postManager->delete($id);
 
         $this->redirectTo("topic", "displayTopic", $topicID);
+    }
+
+    //DISPLAY POST MODIFICATION FORM
+    public function displayModPostForm($id){
+
+        $postManager = new postManager();
+        $post = $postManager->findOneById($id);
+
+        return [
+            "view" => VIEW_DIR."forum/topics/modifyPost.php",
+            "meta_description" => "Post modification",
+            "data" => [
+                "post" => $post
+            ]
+        ];
+    }
+
+    //SUBMIT POST UPDATE
+    public function submitPostUpdate($id) {
+        $postManager = new postManager();
+        $topicID = $postManager->findOneById($id)->getTopic()->getID();
+
+        if (isset($_POST["submit"])) {
+            $content = filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if($content) {
+                $postUpdateData =
+                    "content = '".$content."'";
+
+                $postManager->updatePost($postUpdateData, $id);
+
+                $this->redirectTo("topic", "displayTopic", $topicID);
+            }
+        }
     }
 }
