@@ -22,6 +22,7 @@
                     <nav>
                         <div id="nav-left">
                             <a href="index.php?ctrl=home&action=index">Home</a>
+                            <a href="index.php?ctrl=forum&action=index">Categories</a>
                             <?php
                             if(App\Session::isAdmin()){
                                 ?>
@@ -33,16 +34,14 @@
                             // si l'utilisateur est connecté 
                             if(App\Session::getUser()){
                                 ?>
-                                <a href="index.php?ctrl=security&action=profile"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
+                                <a href="index.php?ctrl=security&action=profile&id=<?= $_SESSION["user"]->getId() ?>"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
                                 <a href="index.php?ctrl=security&action=logout">Log out</a>
                                 <?php
                             }
                             else{
                                 ?>
-                                <a href="index.php?ctrl=security&action=login">Log in</a>
-                                <a href="index.php?ctrl=security&action=register">Register</a>
-                                <a href="index.php?ctrl=forum&action=index">Categories</a>
-                                <a href="index.php?ctrl=home&action=users">User list</a>
+                                <a href="index.php?ctrl=security&action=displayLogin">Log in</a>
+                                <a href="index.php?ctrl=security&action=displayRegister">Register</a>
                             <?php
                             }
                         ?>
