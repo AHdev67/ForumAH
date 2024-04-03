@@ -39,7 +39,7 @@ class Session{
 
     public static function isAdmin(){
         // attention de bien définir la méthode "hasRole" dans l'entité User en fonction de la façon dont sont gérés les rôles en base de données
-        if(self::getUser() && self::getUser()->getRole() == "role_admin"){
+        if(self::getUser() && self::getUser()->hasRole("role_admin")){
             return true;
         }
         return false;
