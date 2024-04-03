@@ -40,7 +40,7 @@
                             }
                             else{
                                 ?>
-                                <a href="index.php?ctrl=security&action=displayLogin">Log in</a>
+                                <a href="index.php?ctrl=security&action=displayLogin">Login</a>
                                 <a href="index.php?ctrl=security&action=displayRegister">Register</a>
                             <?php
                             }
