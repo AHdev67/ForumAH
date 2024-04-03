@@ -56,7 +56,7 @@ class TopicController extends AbstractController implements ControllerInterface{
             $title = filter_input(INPUT_POST,"inputTitle", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $content = filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $category = filter_input(INPUT_POST,"inputCategory", FILTER_VALIDATE_INT);
-            $user = 2;
+            $user = $_SESSION["user"]->getID();
             $closed = 0;
             if($category && $title && $content) {
                 $topicData = [
@@ -77,10 +77,12 @@ class TopicController extends AbstractController implements ControllerInterface{
     //DELETE TOPIC
     public function deleteTopic($id){
         $topicManager = new TopicManager;
+        $topic = $topicManager->findOneById($id);
+        $categoryID = $topic->getCategory()->getId();
 
         $topicManager->delete($id);
 
-        $this->redirectTo("forum", "listTopicsByCategory");
+        $this->redirectTo("forum", "listTopicsByCategory", $categoryID);
     }
 
     // DISPLAY TOPIC MODIFICATION FORM
@@ -131,12 +133,13 @@ class TopicController extends AbstractController implements ControllerInterface{
 
         if(isset($_POST['submit'])) {
             $content= filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $user = $_SESSION["user"]->getID();
 
             if($content) {
                 $postData = [
                     "content" => $content,
                     "topic_id" => $id,
-                    "user_id" => "2",
+                    "user_id" => $user,
                 ];
 
                 $postManager->add($postData);
