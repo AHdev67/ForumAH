@@ -27,7 +27,7 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
-
+    // liste des topics par catégorie, prépare les données qui seront affichées sur la page
     public function listTopicsByCategory($id) {
 
         $topicManager = new TopicManager();
