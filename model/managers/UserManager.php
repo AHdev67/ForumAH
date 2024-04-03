@@ -21,8 +21,8 @@ class UserManager extends Manager{
                 WHERE t.email = :email";
        
         // la requête renvoie plusieurs enregistrements --> getMultipleResults
-        return  $this->getMultipleResults(
-            DAO::select($sql, ['email' => $email]), 
+        return  $this->getOneOrNullResult(
+            DAO::select($sql, ['email' => $email], false), 
             $this->className
         );
     }
@@ -34,7 +34,7 @@ class UserManager extends Manager{
                 WHERE t.username = :username";
        
         // la requête renvoie plusieurs enregistrements --> getMultipleResults
-        return  $this->getMultipleResults(
+        return  $this->getOneOrNullResult(
             DAO::select($sql, ['username' => $username]), 
             $this->className
         );
