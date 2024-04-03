@@ -3,7 +3,9 @@
     $topics = $result["data"]['topics']; 
 ?>
 
-<h1>Topics list :</h1>
+<h1><?= $category->getName() ?></h1>
+
+<h2>List of topics :</h2>
 
 <?php
 if($topics){
