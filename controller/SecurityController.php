@@ -142,7 +142,7 @@ class SecurityController extends AbstractController{
         $posts = $postManager->findPostByUser($id);
 
         return [
-            "view" => VIEW_DIR."security/displayUser.php",
+            "view" => VIEW_DIR."security/profile.php",
             "meta_description" => "List of topics and posts by a user : ".$user,
             "data" => [
                 "user" => $user,
