@@ -60,7 +60,8 @@ class SecurityController extends AbstractController{
                     $userData = [
                     "username" => $username,
                     "email" => $email,
-                    "password" => password_hash($password, PASSWORD_DEFAULT)
+                    "password" => password_hash($password, PASSWORD_DEFAULT),
+                    "role" => "role_user"
                     ];
 
                     $userManager->add($userData);
