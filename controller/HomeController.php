@@ -1,31 +1,30 @@
 <?php
 namespace Controller;
 
+use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
+use App\Manager;
+use Model\Managers\CategoryManager;
+use Model\Managers\TopicManager;
+use Model\Managers\PostManager;
 use Model\Managers\UserManager;
 
 class HomeController extends AbstractController implements ControllerInterface {
 
     public function index(){
+        $categoryManager = new CategoryManager();
+        $topicManager = new TopicManager();
+
+        $categories = $categoryManager->findAll(["name", "DESC"]);
+        $topics = $topicManager->findAll(["creationDate", "DESC"]);
+
         return [
             "view" => VIEW_DIR."home.php",
-            "meta_description" => "Page d'accueil du forum"
-        ];
-    }
-        
-    public function users(){
-        // $this->restrictTo("ROLE_USER");
-
-        $manager = new UserManager();
-        $users = $manager->findAll();
-        // var_dump($users);die;
-
-        return [
-            "view" => VIEW_DIR."security/users.php",
-            // "meta_description" => "Liste des utilisateurs du forum",
+            "meta_description" => "Page d'accueil du forum",
             "data" => [
-                "users" => $users 
+                "categories" => $categories,
+                "topics" => $topics
             ]
         ];
     }
