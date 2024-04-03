@@ -2,7 +2,7 @@
     Register as new user :
 </h1>
 
-<form action="index.php?ctrl=security&action=addUser" method="post">
+<form action="index.php?ctrl=security&action=register" method="post">
 
     <div>
         <label for="usernameInput">Username : </label>
