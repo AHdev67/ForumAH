@@ -24,7 +24,8 @@
             <div>
                 <p>
                     <a href="index.php?ctrl=topic&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic->getTitle() ?></a>, 
-                    posted in <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory() ?>"><?= $topic->getCategory() ?></a>
+                    posted in <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory() ?>"><?= $topic->getCategory() ?></a> 
+                    (<?= $topic->getCreationDate() ?>)
                 </p>
             </div>
     <?php } 
@@ -34,8 +35,6 @@
             This user has no topics as of right now.
         </p>
     <?php } ?>
-    
-
    
 </div>
 
@@ -56,7 +55,7 @@
             else { ?>
                 <span>(topic deleted)</span>
             <?php } ?>
-                
+            (<?= $post->getCreationDate() ?>)
         </div>
 
     <?php } 
