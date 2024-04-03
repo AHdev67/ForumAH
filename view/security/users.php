@@ -6,5 +6,5 @@
 
 <?php
 foreach($users as $user ){ ?>
-    <p><a href="index.php?ctrl=forum&action=displayUser&id=<?= $user->getId() ?>"><?= $user->getUsername() ?></a></p>
+    <p><a href="index.php?ctrl=security&action=profile&id=<?= $user->getId() ?>"><?= $user->getUsername() ?></a></p>
 <?php }
