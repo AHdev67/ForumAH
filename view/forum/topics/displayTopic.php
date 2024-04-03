@@ -13,7 +13,15 @@
     </p>
 
     <p>
-        Par : <?= $topic->getUser() ?> (<?= $topic->getCreationDate() ?>)
+        By : 
+        <?php
+        if($topic->getUser()){ ?>
+            <?= $topic->getUser() ?> 
+        <?php }
+        else{ ?>
+            (Deleted user)
+        <?php } ?>
+        (<?= $topic->getCreationDate() ?>)
     </p>
 
     <div>
@@ -42,7 +50,15 @@
                 </p>
 
                 <p>
-                    By : <?= $post->getUser() ?> (<?= $post->getCreationDate() ?>)
+                    By : 
+                    <?php
+                    if($post->getUser()){ ?>
+                        <?= $post->getUser() ?> 
+                    <?php }
+                    else{ ?>
+                        (Deleted user)
+                    <?php } ?>
+                    (<?= $post->getCreationDate() ?>)
                 </p>
 
                 <div>
