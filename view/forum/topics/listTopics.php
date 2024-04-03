@@ -10,7 +10,17 @@
 <?php
 if($topics){
     foreach($topics as $topic ){ ?>
-    <p><a href="index.php?ctrl=topic&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> par <?= $topic->getUser() ?></p>
+    <p><a href="index.php?ctrl=topic&action=displayTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> by 
+
+    <?php if($topic->getUser()){ ?>
+        <a href=""><?= $topic->getUser() ?></a>
+    <?php }
+    else{ ?>
+        <span>
+            (Deleted user)
+        </span>
+    <?php } ?>
+    </p>
 <?php }
 }
 else{ ?>
