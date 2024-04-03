@@ -44,23 +44,4 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
-
-    public function displayUser($id) {
-        $userManager = new UserManager();
-        $postManager = new PostManager();
-        $topicManager = new TopicManager();
-        $user = $userManager->findOneById($id);
-        $topics = $topicManager->findTopicsByUser($id);
-        $posts = $postManager->findPostByUser($id);
-
-        return [
-            "view" => VIEW_DIR."security/displayUser.php",
-            "meta_description" => "List of topics and posts by a user : ".$user,
-            "data" => [
-                "user" => $user,
-                "topics" => $topics,
-                "posts" => $posts
-            ]
-        ];
-    }
 }
