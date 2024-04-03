@@ -6,5 +6,15 @@
 
 <?php
 foreach($users as $user ){ ?>
-    <p><a href="index.php?ctrl=security&action=profile&id=<?= $user->getId() ?>"><?= $user->getUsername() ?></a></p>
+    <p>
+        <a href="index.php?ctrl=security&action=profile&id=<?= $user->getId() ?>"><?= $user->getUsername() ?></a> 
+        role : 
+        <?php
+        if($user->getRole() == "role_admin"){ ?>
+            administrator
+        <?php }
+        else{ ?>
+            user
+        <?php } ?>
+    </p>
 <?php }
