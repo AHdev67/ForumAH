@@ -20,6 +20,8 @@ class SecurityController extends AbstractController{
 
     public function register() {
         $userManager = new UserManager();
+        $topicManager = new TopicManager();
+        $topics = $topicManager->findLatestTopics(["creationDate", "DESC"]);
 
         if (isset($_POST["submit"])) {
             $username = filter_input(INPUT_POST,"inputUsername", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -68,7 +70,10 @@ class SecurityController extends AbstractController{
 
                     return [
                         "view" => VIEW_DIR."home.php",
-                        "meta_description" => "Page d'accueil du forum"
+                        "meta_description" => "Page d'accueil du forum",
+                        "data" => [
+                            "topics" => $topics
+                        ]
                     ];
                 }
             }
@@ -134,7 +139,7 @@ class SecurityController extends AbstractController{
     public function logout() {
         $topicManager = new TopicManager();
         $topics = $topicManager->findLatestTopics(["creationDate", "DESC"]);
-        
+
         unset($_SESSION["user"]);
         return [
             "view" => VIEW_DIR."home.php",
@@ -243,6 +248,31 @@ class SecurityController extends AbstractController{
         }
     }
 
+    public function displayAccDelForm($id){
+        $userManager = new UserManager();
+        $user = $userManager->findOneById($id);
+
+        return [
+            "view" => VIEW_DIR."security/deleteAccount.php",
+            "meta_description" => "User deletion form",
+            "data" => [
+                "user" => $user
+            ]
+        ];
+    }
+
+    public function deleteAccount($id){
+        $userManager = new UserManager;
+        $user = $userManager->findOneById($id);
+
+        if(isset($_POST['submit'])){
+            $email = filter_input(INPUT_POST,"inputEmail", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $password = filter_input(INPUT_POST,"inputPassword1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            
+        }
+    }
+ 
     public function users(){
         $this->restrictTo("role_admin");
 
