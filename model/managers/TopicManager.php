@@ -28,6 +28,22 @@ class TopicManager extends Manager{
         );
     }
 
+    public function findLatestTopics($order = null){
+        $orderQuery = ($order) ?                 
+            "ORDER BY ".$order[0]. " ".$order[1] :
+            "";
+
+        $sql = "SELECT *
+            FROM ".$this->tableName." a
+            ".$orderQuery."
+            LIMIT 8";
+
+        return $this->getMultipleResults(
+        DAO::select($sql), 
+        $this->className
+    );
+}
+
     public function findTopicsByUser($id) {
 
         $sql = "SELECT * 
