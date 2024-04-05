@@ -9,8 +9,7 @@
 <a href="index.php?ctrl=security&action=profile&id=<?= $user->getID() ?>"><i class="fa-solid fa-arrow-left"></i> Back to profile</a>
 
 <h3>
-    Are you certain you wish to delete your account ?<br>
-    Be warned : this action is permanent, and your accound will not be recoverable.
+    Are you certain you wish to delete your account ?
 </h3>
 
 <h4>
