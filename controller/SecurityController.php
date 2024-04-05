@@ -83,6 +83,8 @@ class SecurityController extends AbstractController{
     }
 
     public function login() {
+        $topicManager = new TopicManager();
+        $topics = $topicManager->findLatestTopics(["creationDate", "DESC"]);
         $userManager = new UserManager();
 
         if (isset($_POST["submit"])) {
@@ -103,7 +105,10 @@ class SecurityController extends AbstractController{
                         $_SESSION["user"] = $user;
                         return [
                             "view" => VIEW_DIR."home.php",
-                            "meta_description" => "Forum home page"
+                            "meta_description" => "Page d'accueil du forum",
+                            "data" => [
+                                "topics" => $topics
+                            ]
                         ];
                     }
                     else{
@@ -127,10 +132,16 @@ class SecurityController extends AbstractController{
     }
 
     public function logout() {
+        $topicManager = new TopicManager();
+        $topics = $topicManager->findLatestTopics(["creationDate", "DESC"]);
+        
         unset($_SESSION["user"]);
         return [
             "view" => VIEW_DIR."home.php",
-            "meta_description" => "Forum home page"
+            "meta_description" => "Page d'accueil du forum",
+            "data" => [
+                "topics" => $topics
+            ]
         ];
     }
 
@@ -151,6 +162,85 @@ class SecurityController extends AbstractController{
                 "posts" => $posts
             ]
         ];
+    }
+
+    public function displayModProfileForm($id){
+        $userManager = new UserManager();
+        $user = $userManager->findOneById($id);
+
+        return [
+            "view" => VIEW_DIR."security/modifyProfile.php",
+            "meta_description" => "Topic modification",
+            "data" => [
+                "user" => $user
+            ]
+        ];
+    }
+
+    public function submitProfileUpdate($id) {
+        $userManager = new UserManager();
+        $user = $userManager->findOneById($id);
+
+        if (isset($_POST["submit"])) {
+            $username = filter_input(INPUT_POST,"inputUsername", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $email = filter_input(INPUT_POST,"inputEmail", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if($username && $email) {
+                $userUpdateData =
+                    "username = '".$username."', 
+                    email = '".$email."'";
+
+                $userManager->updateUser($userUpdateData, $id);
+
+                $this->redirectTo("security", "profile", $id);
+            }
+        }
+    }
+
+    public function displayModPassword($id){
+        $userManager = new UserManager();
+        $user = $userManager->findOneById($id);
+
+        return [
+            "view" => VIEW_DIR."security/modifyPassword.php",
+            "meta_description" => "Password Change form",
+            "data" => [
+                "user" => $user
+            ]
+        ];
+    }
+
+    public function submitPasswordUpdate($id){
+        $userManager = new UserManager();
+        $user = $userManager->findOneById($id);
+
+        if (isset($_POST["submit"])) {
+            $currentPassword = filter_input(INPUT_POST,"inputPassword1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $newPassword = filter_input(INPUT_POST,"inputPassword2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if($currentPassword && $newPassword) {
+                $hash = $user->getPassword();
+                    // var_dump($hash);die;
+                if(password_verify($currentPassword, $hash)){
+                    $PasswordUpdateData =
+                    "password = '".password_hash($newPassword, PASSWORD_DEFAULT)."'";
+
+                    $userManager->updateUser($PasswordUpdateData, $id);
+
+                    $this->redirectTo("security", "profile", $id);
+                }
+                else{
+                    Session::addFlash("error", "Passwords don't match.");
+                    return [
+                        "view" => VIEW_DIR."security/modifyPassword.php",
+                        "meta_description" => "Topic modification",
+                        "data" => [
+                            "user" => $user
+                        ]
+                    ];
+                }
+            }
+        }
     }
 
     public function users(){
