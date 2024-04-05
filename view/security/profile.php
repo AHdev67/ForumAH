@@ -8,11 +8,17 @@
     <h1>
         <?= $user->getUsername() ?> 
     </h1>
+
     <p>
         Registerd on : <?= $user->getRegisterDate() ?>
     </p>
+
     <p>
-        <a href="index.php?ctrl=security&action=displayModProfileForm&id=<?= $user->getId() ?>"><i class="fa-solid fa-pen-to-square"></i> Modify Profile</a>
+        <a href="index.php?ctrl=security&action=displayModProfileForm&id=<?= $user->getId() ?>"><i class="fa-solid fa-pen-to-square"></i> Modify your profile</a>
+    </p>
+
+    <p>
+        <a href="index.php?ctrl=security&action=displayAccDelForm&id=<?= $user->getId() ?>">Delete this account</a>
     </p>
 </div>
 
@@ -20,6 +26,7 @@
     <p>
         Topics by this user :
     </p>
+
     <?php
     if($topics){
         foreach($topics as $topic){ ?>
@@ -31,20 +38,25 @@
                     (<?= $topic->getCreationDate() ?>)
                 </p>
             </div>
+
     <?php } 
     }
     else{ ?>
+
         <p>
             This user has no topics as of right now.
         </p>
+
     <?php } ?>
    
 </div>
 
 <div id="userPosts">
+
     <p>
         Replies by this user :
     </p>
+
     <?php
     if($posts){
         foreach($posts as $post) { ?>
@@ -64,9 +76,11 @@
     <?php } 
     }
     else{ ?>
+
         <p>
             This user has made no replies as of right now.
         </p>
+
     <?php } ?>
     
 </div>
