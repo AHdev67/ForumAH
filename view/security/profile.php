@@ -6,10 +6,13 @@
 
 <div id="UserHeader">
     <h1>
-        <?= $user->getUsername() ?>
+        <?= $user->getUsername() ?> 
     </h1>
     <p>
         Registerd on : <?= $user->getRegisterDate() ?>
+    </p>
+    <p>
+        <a href="index.php?ctrl=security&action=displayModProfileForm&id=<?= $user->getId() ?>"><i class="fa-solid fa-pen-to-square"></i> Modify Profile</a>
     </p>
 </div>
 
