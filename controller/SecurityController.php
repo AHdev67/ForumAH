@@ -269,7 +269,13 @@ class SecurityController extends AbstractController{
             $email = filter_input(INPUT_POST,"inputEmail", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password = filter_input(INPUT_POST,"inputPassword1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            
+            if($email && $password){
+                $checkEmail = $user->getEmail() ? true : false;
+                if($checkEmail){
+                    //TO BE CONTINUED
+                }
+
+            }
         }
     }
  
