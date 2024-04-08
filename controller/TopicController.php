@@ -126,6 +126,16 @@ class TopicController extends AbstractController implements ControllerInterface{
         }
     }
 
+    public function closeTopic($id){
+        $topicManager = new TopicManager;
+
+        $closeTopicData = "closed = 1";
+        
+        $topicManager->updateTopic($closeTopicData, $id);
+
+        $this->redirectTo("topic", "displayTopic", $id);
+    }
+
 //------------------------------------------------------------------TOPIC POSTS METHODS------------------------------------------------------------------
 
     public function addPost($id){
