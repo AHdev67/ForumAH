@@ -6,7 +6,7 @@
     Account deletion :
 </h1>
 
-<a href="index.php?ctrl=security&action=profile&id=<?= $user->getID() ?>"><i class="fa-solid fa-arrow-left"></i> Back to profile</a>
+<a href="index.php?ctrl=security&action=profile"><i class="fa-solid fa-arrow-left"></i> Back to profile</a>
 
 <h3>
     Are you certain you wish to delete your account ?
@@ -16,7 +16,7 @@
     Please enter your login info to proceed
 </h4>
 
-<form action="index.php?ctrl=security&action=deleteAccount$id=<?= $user->getID() ?>" method="post">
+<form action="index.php?ctrl=security&action=deleteAccount" method="post">
 
     <div>
         <label for="emailInput">E-mail : </label>
@@ -28,6 +28,6 @@
         <input type="password" name="inputPassword" id="passwordInput" required>
     </div>
 
-    <input type="submit" name="submit" id="deleteAccountSubmit" value="Delete this account forever">
+    <input type="submit" name="submit" id="deleteAccountSubmit" value="Delete this account">
 
 </form>
