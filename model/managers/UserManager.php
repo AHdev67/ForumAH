@@ -49,5 +49,4 @@ class UserManager extends Manager{
         
         return DAO::update($sql, ['id' => $id]);
     }
-
 }
