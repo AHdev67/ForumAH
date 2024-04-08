@@ -2,9 +2,9 @@
     $user = $result["data"]['user'];
 ?>
 
-    <a href="index.php?ctrl=security&action=displayModProfileForm&id=<?= $user->getID() ?>"><i class="fa-solid fa-arrow-left"></i> Cancel</a>
+    <a href="index.php?ctrl=security&action=displayModProfileForm"><i class="fa-solid fa-arrow-left"></i> Cancel</a>
 
-    <form action="index.php?ctrl=security&action=submitPasswordUpdate&id=<?= $user->getID() ?>" method="post">
+    <form action="index.php?ctrl=security&action=submitPasswordUpdate" method="post">
 
     
     <div>
@@ -17,7 +17,7 @@
         <input type="password" name="inputPassword2" id="passwordInput2" required>
     </div>
 
-       <a href="index.php?ctrl=security&action=displayModPassword&id=<?= $user->getId() ?>">Change your password</a>
+       <a href="index.php?ctrl=security&action=displayModPassword">Change your password</a>
 
         <input type="submit" name="submit" id="submitPasswordUpdate" value="Update password">
 

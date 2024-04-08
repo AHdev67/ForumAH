@@ -14,11 +14,11 @@
     </p>
 
     <p>
-        <a href="index.php?ctrl=security&action=displayModProfileForm&id=<?= $user->getId() ?>"><i class="fa-solid fa-pen-to-square"></i> Modify your profile</a>
+        <a href="index.php?ctrl=security&action=displayModProfileForm"><i class="fa-solid fa-pen-to-square"></i> Modify your profile</a>
     </p>
 
     <p>
-        <a href="index.php?ctrl=security&action=displayAccDelForm&id=<?= $user->getId() ?>">Delete this account</a>
+        <a href="index.php?ctrl=security&action=displayAccDelForm">Delete this account</a>
     </p>
 </div>
 

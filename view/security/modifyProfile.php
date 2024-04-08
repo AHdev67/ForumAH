@@ -2,9 +2,9 @@
     $user = $result["data"]['user'];
 ?>
 
-    <a href="index.php?ctrl=security&action=profile&id=<?= $user->getID() ?>"><i class="fa-solid fa-arrow-left"></i> Back to profile</a>
+    <a href="index.php?ctrl=security&action=profile"><i class="fa-solid fa-arrow-left"></i> Back to profile</a>
 
-    <form action="index.php?ctrl=security&action=submitProfileUpdate&id=<?= $user->getID() ?>" method="post">
+    <form action="index.php?ctrl=security&action=submitProfileUpdate" method="post">
 
     
         <div>
@@ -19,7 +19,7 @@
             placeholder="something.else@thing.domain" value="<?= $user->getEmail() ?>" required>
         </div>
 
-       <a href="index.php?ctrl=security&action=displayModPassword&id=<?= $user->getId() ?>">Change your password</a>
+       <a href="index.php?ctrl=security&action=displayModPassword">Change your password</a>
 
         <input type="submit" name="submit" id="submitProfileUpdate" value="Update profile">
 
