@@ -5,7 +5,11 @@
 
 <div id="topicHeader">
     <h1>
-        <?= $topic->getTitle() ?>
+        <?= $topic->getTitle() ?> 
+        <?php
+        if($topic->getClosed() == 1){ ?>
+            (CLOSED)
+        <?php } ?>
     </h1>
 
     <p>
@@ -26,14 +30,19 @@
 
     <div>
         <a href="index.php?ctrl=topic&action=displayModTopicForm&id=<?= $topic->getID() ?>">
-            <i class="fa-solid fa-pen-to-square"></i>
+            <i class="fa-solid fa-pen-to-square"></i> Edit topic
         </a>
-        
+    </div>
+
+    <div>
+        <a href="index.php?ctrl=topic&action=closeTopic&id=<?= $topic->getID() ?>">
+            <i class="fa-solid fa-square-xmark"></i> Close topic
+        </a>
     </div>
 
     <div>
         <a href="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getID() ?>">
-            <i class="fa-solid fa-trash"></i>
+            <i class="fa-solid fa-trash"></i> Delete topic (forever)
         </a>
     </div>
 </div>
@@ -63,14 +72,14 @@
 
                 <div>
                     <a href="index.php?ctrl=topic&action=displayModPostForm&id=<?= $post->getID() ?>">
-                        <i class="fa-solid fa-pen-to-square"></i>
+                        <i class="fa-solid fa-pen-to-square"></i> Edit reply
                     </a>
                     
                 </div>
 
                 <div>
                     <a href="index.php?ctrl=topic&action=deletePost&id=<?= $post->getID() ?>">
-                        <i class="fa-solid fa-trash"></i>
+                        <i class="fa-solid fa-trash"></i> Delete reply (forever)
                     </a>
                 </div>
             </div>
@@ -86,6 +95,12 @@
     <?php } ?>
 </div>
 
+<?php
+if($topic->getClosed() == 1){ ?>
+    TOPIC CLOSED, YOU CAN NO LONGER REPLY TO IT.
+<?php }
+else { ?>
+
 <div>  
     <form action="index.php?ctrl=topic&action=addPost&id=<?= $topic->getID() ?>" method="post">
 
@@ -99,3 +114,4 @@
     </form>
 </div>
 
+<?php } ?>
