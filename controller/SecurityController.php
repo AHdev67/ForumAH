@@ -150,7 +150,26 @@ class SecurityController extends AbstractController{
         ];
     }
 
-    public function profile($id) {
+    public function profile() {
+        $userManager = new UserManager();
+        $postManager = new PostManager();
+        $topicManager = new TopicManager();
+        $user = $_SESSION["user"];
+        $topics = $topicManager->findTopicsByUser($user->getId());
+        $posts = $postManager->findPostByUser($user->getId());
+
+        return [
+            "view" => VIEW_DIR."security/profile.php",
+            "meta_description" => "List of topics and posts by : ".$user,
+            "data" => [
+                "user" => $user,
+                "topics" => $topics,
+                "posts" => $posts
+            ]
+        ];
+    }
+
+    public function profileAdminView($id) {
         $userManager = new UserManager();
         $postManager = new PostManager();
         $topicManager = new TopicManager();
@@ -160,7 +179,7 @@ class SecurityController extends AbstractController{
 
         return [
             "view" => VIEW_DIR."security/profile.php",
-            "meta_description" => "List of topics and posts by a user : ".$user,
+            "meta_description" => "List of topics and posts by : ".$user,
             "data" => [
                 "user" => $user,
                 "topics" => $topics,
@@ -169,42 +188,53 @@ class SecurityController extends AbstractController{
         ];
     }
 
-    public function displayModProfileForm($id){
-        $userManager = new UserManager();
-        $user = $userManager->findOneById($id);
+    public function displayModProfileForm(){
+        $user = $_SESSION["user"];
 
         return [
             "view" => VIEW_DIR."security/modifyProfile.php",
-            "meta_description" => "Topic modification",
+            "meta_description" => "Profile modification",
             "data" => [
                 "user" => $user
             ]
         ];
     }
 
-    public function submitProfileUpdate($id) {
+    public function submitProfileUpdate() {
         $userManager = new UserManager();
-        $user = $userManager->findOneById($id);
+        $user = $_SESSION["user"];
 
         if (isset($_POST["submit"])) {
             $username = filter_input(INPUT_POST,"inputUsername", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $email = filter_input(INPUT_POST,"inputEmail", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if($username && $email) {
-                $userUpdateData =
+                if($email != $user->getEmail() && $userManager->findUserByEmail($email) != null){
+                    Session::addFlash("error", "E-mail adress already in use.");
+                    $this->redirectTo("security", "displayModProfileForm");
+                }
+                else if ($username != $user->getUsername() && $userManager->findUserByUsername($username) != null){
+                    Session::addFlash("error", "Username already in use.");
+                    $this->redirectTo("security", "displayModProfileForm");
+                }
+                else {
+                    $userUpdateData =
                     "username = '".$username."', 
                     email = '".$email."'";
 
-                $userManager->updateUser($userUpdateData, $id);
+                    $userManager->updateUser($userUpdateData, $user->getId());
 
-                $this->redirectTo("security", "profile", $id);
+                    $_SESSION["user"] = $userManager->findOneById($user->getId());
+
+                    $this->redirectTo("security", "profile");
+                }
             }
         }
     }
 
-    public function displayModPassword($id){
+    public function displayModPassword(){
         $userManager = new UserManager();
-        $user = $userManager->findOneById($id);
+        $user = $_SESSION["user"];
 
         return [
             "view" => VIEW_DIR."security/modifyPassword.php",
@@ -215,9 +245,9 @@ class SecurityController extends AbstractController{
         ];
     }
 
-    public function submitPasswordUpdate($id){
+    public function submitPasswordUpdate(){
         $userManager = new UserManager();
-        $user = $userManager->findOneById($id);
+        $user = $_SESSION["user"];
 
         if (isset($_POST["submit"])) {
             $currentPassword = filter_input(INPUT_POST,"inputPassword1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -227,30 +257,32 @@ class SecurityController extends AbstractController{
                 $hash = $user->getPassword();
                     // var_dump($hash);die;
                 if(password_verify($currentPassword, $hash)){
-                    $PasswordUpdateData =
-                    "password = '".password_hash($newPassword, PASSWORD_DEFAULT)."'";
+                    if(strlen($newPassword) < 8){
+                        $PasswordUpdateData =
+                        "password = '".password_hash($newPassword, PASSWORD_DEFAULT)."'";
 
-                    $userManager->updateUser($PasswordUpdateData, $id);
+                        $userManager->updateUser($PasswordUpdateData, $user->getId());
 
-                    $this->redirectTo("security", "profile", $id);
+                        $_SESSION["user"] = $userManager->findOneById($user->getId());
+
+                        $this->redirectTo("security", "profile");
+                    }
+                    else{
+                        Session::addFlash("error", "New password is too short.");
+                        $this->redirectTo("security", "displayModPassword");
+                    }
+                    
                 }
                 else{
-                    Session::addFlash("error", "Passwords don't match.");
-                    return [
-                        "view" => VIEW_DIR."security/modifyPassword.php",
-                        "meta_description" => "Topic modification",
-                        "data" => [
-                            "user" => $user
-                        ]
-                    ];
+                    Session::addFlash("error", "Current password invalid.");
+                    $this->redirectTo("security", "displayModPassword");
                 }
             }
         }
     }
 
-    public function displayAccDelForm($id){
-        $userManager = new UserManager();
-        $user = $userManager->findOneById($id);
+    public function displayAccDelForm(){
+        $user = $_SESSION["user"];
 
         return [
             "view" => VIEW_DIR."security/deleteAccount.php",
@@ -261,20 +293,39 @@ class SecurityController extends AbstractController{
         ];
     }
 
-    public function deleteAccount($id){
+    public function deleteAccount(){
         $userManager = new UserManager;
-        $user = $userManager->findOneById($id);
+        $user = $_SESSION["user"];
 
-        if(isset($_POST['submit'])){
+        if(isset($_POST["submit"])){
             $email = filter_input(INPUT_POST,"inputEmail", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $password = filter_input(INPUT_POST,"inputPassword1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $password = filter_input(INPUT_POST,"inputPassword", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if($email && $password){
-                $checkEmail = $user->getEmail() ? true : false;
-                if($checkEmail){
-                    //TO BE CONTINUED
-                }
+                if($email == $user->getEmail()){
+    
+                    $hash = $user->getPassword();
+                    
+                    if(password_verify($password, $hash)){
 
+                        $userUpdateData =
+                        "username = '"."Deleted user"."',
+                        email = '"."Deleted user"."'";
+    
+                        $userManager->updateUser($userUpdateData, $user->getId());
+
+                        unset($_SESSION["user"]);
+                        $this->redirectTo("forum", "index");
+                    }
+                    else{
+                        Session::addFlash("error", "Incorrect password");
+                        $this->redirectTo("security", "displayAccDelForm");
+                    }
+                }
+                else{
+                    Session::addFlash("error", "Incorrect e-mail");
+                    $this->redirectTo("security", "displayAccDelForm");
+                }
             }
         }
     }
