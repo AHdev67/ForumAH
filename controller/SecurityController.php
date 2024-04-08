@@ -309,13 +309,13 @@ class SecurityController extends AbstractController{
                     if(password_verify($password, $hash)){
 
                         $userUpdateData =
-                        "username = '"."Deleted user"."',
-                        email = '"."Deleted user"."'";
+                        "username = '"."(Deleted user)"."',
+                        email = '"."(Unavailable)"."'";
     
                         $userManager->updateUser($userUpdateData, $user->getId());
 
                         unset($_SESSION["user"]);
-                        $this->redirectTo("forum", "index");
+                        $this->redirectTo("home", "index");
                     }
                     else{
                         Session::addFlash("error", "Incorrect password");
