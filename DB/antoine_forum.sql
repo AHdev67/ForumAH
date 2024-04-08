@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table antoine_forum.post : ~4 rows (environ)
+-- Listage des données de la table antoine_forum.post : ~6 rows (environ)
 INSERT INTO `post` (`id_post`, `content`, `creationDate`, `user_id`, `topic_id`) VALUES
 	(4, 'You will perish.', '2024-03-26 14:43:39', NULL, NULL),
 	(5, 'Anyone got spare change ?', '2024-03-26 15:05:30', NULL, NULL),
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `topic` (
   `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `category_id` int NOT NULL,
   `user_id` int DEFAULT NULL,
-  `closed` binary(50) NOT NULL,
+  `closed` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id_topic`) USING BTREE,
   KEY `category` (`category_id`) USING BTREE,
   KEY `user` (`user_id`) USING BTREE,
@@ -72,10 +72,10 @@ CREATE TABLE IF NOT EXISTS `topic` (
   CONSTRAINT `topic_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table antoine_forum.topic : ~0 rows (environ)
+-- Listage des données de la table antoine_forum.topic : ~2 rows (environ)
 INSERT INTO `topic` (`id_topic`, `title`, `content`, `creationDate`, `category_id`, `user_id`, `closed`) VALUES
-	(8, 'My thing don&#039;t work too good', 'It don&#039;t turn on :(', '2024-04-03 11:33:37', 3, 3, _binary 0x3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000),
-	(11, 'New computer :)', 'New build, high end part, \r\nno more money, downpayment on my mortgage can wait.', '2024-04-05 09:59:34', 1, 4, _binary 0x3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
+	(8, 'My thing don&#039;t work too good', 'It don&#039;t turn on :(', '2024-04-03 11:33:37', 3, 3, 0),
+	(11, 'New computer', 'New build, high end part, \r\nno more money, downpayment on my mortgage can wait.', '2024-04-05 09:59:34', 1, 4, 1);
 
 -- Listage de la structure de table antoine_forum. user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -86,13 +86,12 @@ CREATE TABLE IF NOT EXISTS `user` (
   `registerDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id_user`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table antoine_forum.user : ~3 rows (environ)
+-- Listage des données de la table antoine_forum.user : ~2 rows (environ)
 INSERT INTO `user` (`id_user`, `username`, `email`, `password`, `registerDate`, `role`) VALUES
 	(3, 'Bingus', 'bingus.contact@gmail.com', '$2y$10$Jk1fhvMD0/UKCFifc0vIpeEImw34edVui.9VyYSiOgftDZOmZzlg2', '2024-04-03 09:05:46', 'role_admin'),
-	(4, 'John PHP', 'john.php@wanadoo.fr', '$2y$10$mTBO1ggrK9gKzg2MSZEu5O2FXtGFG/Jtu6VXBIfrblAY2MmRecTcq', '2024-04-03 14:14:22', 'role_user'),
-	(6, 'bingus2', 'bingus.alt@gmail.com', '$2y$10$UIvguo5ZfTqtv791YvJA8ukkVXFgQjbWW0dEDT35f0I9AWjNPhTwK', '2024-04-05 14:06:33', 'role_user');
+	(4, 'John PHP', 'john.php@wanadoo.fr', '$2y$10$mTBO1ggrK9gKzg2MSZEu5O2FXtGFG/Jtu6VXBIfrblAY2MmRecTcq', '2024-04-03 14:14:22', 'role_user');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
