@@ -17,6 +17,8 @@
         Registerd on : <?= $user->getRegisterDate() ?>
     </p>
 
+    <?php 
+    if(App\Session::getUser() && App\Session::getUser() == $user){ ?>
     <p>
         <a href="index.php?ctrl=security&action=displayModProfileForm"><i class="fa-solid fa-pen-to-square"></i> Modify profile</a>
     </p>
@@ -24,9 +26,10 @@
     <p>
         <a href="index.php?ctrl=security&action=displayAccDelForm">Delete account</a>
     </p>
+    <?php } ?>
 
     <?php
-    if(App\Session::isAdmin()){ 
+    if(App\Session::isAdmin() && App\Session::getUser() != $user){ 
         if($user->getRole() == "role_banned"){ ?>
             <a href="index.php?ctrl=security&action=unbanUser&id=<?= $user->getId() ?>">Unban user</a>
         <?php }
