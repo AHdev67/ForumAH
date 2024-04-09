@@ -32,4 +32,11 @@ abstract class AbstractController{
         return;
     }
 
+    public function forbidTo($role){
+
+        if(!Session::getUser() || !Session::getUser()->hasRole($role)){
+            $this->redirectTo("home", "index");
+        }
+    }
+
 }
