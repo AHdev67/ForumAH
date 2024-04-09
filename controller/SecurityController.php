@@ -329,7 +329,28 @@ class SecurityController extends AbstractController{
             }
         }
     }
- 
+
+    public function banUser($id){
+        $this->restrictTo("role_admin");
+
+        $userManager = new UserManager();
+        $user = $userManager->findOneById($id);
+        $roleData = "role = 'role_banned'";
+        $userManager->updateUser($roleData, $id);
+
+        $this->redirectTo("security", "profileAdminView", $id);
+    }
+
+    public function unbanUser($id){
+        $this->restrictTo("role_admin");
+
+        $userManager = new UserManager();
+        $roleData = "role = 'role_user'";
+        $userManager->updateUser($roleData, $id);
+
+        $this->redirectTo("security", "profileAdminView", $id);
+    }
+
     public function users(){
         $this->restrictTo("role_admin");
 
