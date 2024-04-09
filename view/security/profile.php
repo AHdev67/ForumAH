@@ -7,6 +7,10 @@
 <div id="UserHeader">
     <h1>
         <?= $user->getUsername() ?> 
+        <?php 
+        if($user->getRole() == "role_banned"){ ?>
+            (BANNED)
+        <?php } ?>
     </h1>
 
     <p>
@@ -20,6 +24,19 @@
     <p>
         <a href="index.php?ctrl=security&action=displayAccDelForm">Delete account</a>
     </p>
+
+    <?php
+    if(App\Session::isAdmin()){ 
+        if($user->getRole() == "role_banned"){ ?>
+            <a href="index.php?ctrl=security&action=unbanUser&id=<?= $user->getId() ?>">Unban user</a>
+        <?php }
+        else { ?>
+        <p>
+            <a href="index.php?ctrl=security&action=banUser&id=<?= $user->getId() ?>">Ban user</a>
+        </p>
+        <?php } ?>
+        
+    <?php } ?>
 </div>
 
 <div id="userTopics">
