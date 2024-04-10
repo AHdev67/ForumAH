@@ -13,8 +13,11 @@ foreach($users as $user ){ ?>
         if($user->getRole() == "role_admin"){ ?>
             administrator
         <?php }
-        else{ ?>
+        else if($user->getRole() == "role_user") { ?>
             user
+        <?php }
+        else{ ?>
+            user (banned)
         <?php } ?>
     </p>
 <?php }
