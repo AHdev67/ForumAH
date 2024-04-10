@@ -34,6 +34,9 @@ class TopicController extends AbstractController implements ControllerInterface{
 
     // DISPLAY TOPIC CREATION FORM
     public function displayTopicForm() {
+
+        $this->forbidTo("role_banned");
+
         $categoryManager = new CategoryManager();
         // récupérer la liste de toutes les catégories grâce à la méthode findAll de Manager.php (triés par nom)
         $categories = $categoryManager->findAll(["name", "DESC"]);
@@ -50,6 +53,9 @@ class TopicController extends AbstractController implements ControllerInterface{
 
     // ADD NEW TOPIC TO DB
     public function addTopic() {
+
+        $this->forbidTo("role_banned");
+
         $topicManager = new TopicManager();
 
         if (isset($_POST["submit"])) {
@@ -76,17 +82,31 @@ class TopicController extends AbstractController implements ControllerInterface{
 
     //DELETE TOPIC
     public function deleteTopic($id){
+        
         $topicManager = new TopicManager;
         $topic = $topicManager->findOneById($id);
         $categoryID = $topic->getCategory()->getId();
+        $user = $_SESSION["user"];
 
-        $topicManager->delete($id);
+        if($user == $topic->getUser()){
 
-        $this->redirectTo("forum", "listTopicsByCategory", $categoryID);
+            $topicManager->delete($id);
+
+            $this->redirectTo("forum", "listTopicsByCategory", $categoryID);
+        }
+        else{
+
+            $_SESSION::addFlash("error", "This topic is not yours to delete");
+
+            $this->redirectTo("topic", "displayTopic", $id);
+        }
+
+        
     }
 
     // DISPLAY TOPIC MODIFICATION FORM
     public function displayModTopicForm($id){
+
         $categoryManager = new CategoryManager();
         $categories = $categoryManager->findAll(["name", "DESC"]);
 
@@ -105,23 +125,28 @@ class TopicController extends AbstractController implements ControllerInterface{
 
     // SUBMIT TOPIC UPDATE
     public function submitTopicUpdate($id) {
+
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
+        $user = $_SESSION["user"];
 
-        if (isset($_POST["submit"])) {
-            $title = filter_input(INPUT_POST,"inputTitle", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $content = filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $category = filter_input(INPUT_POST,"inputCategory", FILTER_VALIDATE_INT);
-            
-            if($title && $content && $category) {
-                $topicUpdateData =
-                    "title = '".$title."', 
-                    content = '".$content."', 
-                    category_id = '".$category."'";
+        if($user == $topic->getUser()){
 
-                $topicManager->updateTopic($topicUpdateData, $id);
+            if (isset($_POST["submit"])) {
+                $title = filter_input(INPUT_POST,"inputTitle", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $content = filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $category = filter_input(INPUT_POST,"inputCategory", FILTER_VALIDATE_INT);
+                
+                if($title && $content && $category) {
+                    $topicUpdateData =
+                        "title = '".$title."', 
+                        content = '".$content."', 
+                        category_id = '".$category."'";
 
-                $this->redirectTo("topic", "displayTopic", $id);
+                    $topicManager->updateTopic($topicUpdateData, $id);
+
+                    $this->redirectTo("topic", "displayTopic", $id);
+                }
             }
         }
     }
@@ -138,6 +163,9 @@ class TopicController extends AbstractController implements ControllerInterface{
 //------------------------------------------------------------------TOPIC POSTS METHODS------------------------------------------------------------------
 
     public function addPost($id){
+
+        $this->forbidTo("role_banned");
+
         $postManager = new PostManager();
 
         if(isset($_POST['submit'])) {
@@ -160,11 +188,16 @@ class TopicController extends AbstractController implements ControllerInterface{
 
     public function deletePost($id){
         $postManager = new PostManager;
+        $post = $postManager->findOneById($id);
         $topicID = $postManager->findOneById($id)->getTopic()->getID();
+        $user = $_SESSION["user"];
 
-        $postManager->delete($id);
+        if($user == $post->getUser()){
 
-        $this->redirectTo("topic", "displayTopic", $topicID);
+            $postManager->delete($id);
+
+            $this->redirectTo("topic", "displayTopic", $topicID);
+        }
     }
 
     //DISPLAY POST MODIFICATION FORM
@@ -172,31 +205,43 @@ class TopicController extends AbstractController implements ControllerInterface{
 
         $postManager = new postManager();
         $post = $postManager->findOneById($id);
+        $user = $_SESSION["user"];
 
-        return [
-            "view" => VIEW_DIR."forum/topics/modifyPost.php",
-            "meta_description" => "Post modification",
-            "data" => [
-                "post" => $post
-            ]
-        ];
+        if($user == $post->getUser()){
+
+            return [
+                "view" => VIEW_DIR."forum/topics/modifyPost.php",
+                "meta_description" => "Post modification",
+                "data" => [
+                    "post" => $post
+                ]
+            ];
+        }
     }
 
     //SUBMIT POST UPDATE
     public function submitPostUpdate($id) {
+
+        $this->forbidTo("role_banned");
+
         $postManager = new postManager();
+        $post = $postManager->findOneById($id);
         $topicID = $postManager->findOneById($id)->getTopic()->getID();
+        $user = $_SESSION["user"];
 
-        if (isset($_POST["submit"])) {
-            $content = filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if($user == $post->getUser()){
 
-            if($content) {
-                $postUpdateData =
-                    "content = '".$content."'";
+            if (isset($_POST["submit"])) {
+                $content = filter_input(INPUT_POST,"inputContent", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-                $postManager->updatePost($postUpdateData, $id);
+                if($content) {
+                    $postUpdateData =
+                        "content = '".$content."'";
 
-                $this->redirectTo("topic", "displayTopic", $topicID);
+                    $postManager->updatePost($postUpdateData, $id);
+
+                    $this->redirectTo("topic", "displayTopic", $topicID);
+                }
             }
         }
     }
