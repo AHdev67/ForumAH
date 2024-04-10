@@ -34,7 +34,8 @@ abstract class AbstractController{
 
     public function forbidTo($role){
 
-        if(!Session::getUser() || !Session::getUser()->hasRole($role)){
+        if(!Session::getUser() || Session::getUser()->hasRole($role)){
+            Session::addFlash("error", "Access denied : You are banned from using this website's features.");
             $this->redirectTo("home", "index");
         }
     }
