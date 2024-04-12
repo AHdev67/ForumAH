@@ -17,7 +17,7 @@
 
         <header>
             <!-- Fixed navbar -->
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark mb-5">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div class="container-fluid">
 
                     <a class="navbar-brand" href="index.php?ctrl=home&action=index">BINGUS TECH TIPS</a>
@@ -77,16 +77,16 @@
 
         <!-- Begin page content -->
         <main class="flex-shrink-0" id="forum">
-            <div class="container mt-3 pb-5">
+            <div class="container mt-5 pt-5">
                 <?= $page ?>
             </div>
         </main>
 
         <!-- Footer -->
-        <footer class="footer mt-auto py-3 bg-body-tertiary">
+        <footer class="footer mt-auto py-3 bg-body-tertiary fixed-bottom">
             <div class="container">
                 <span class="text-body-secondary">
-                    <p>&copy; <?= date_create("now")->format("Y") ?> - <a href="#">Règlement du forum</a> - <a href="#">Mentions légales</a></p>
+                    <p>Bingus Media Group &copy; <?= date_create("now")->format("Y") ?> - <a href="#">Règlement du forum</a> - <a href="#">Mentions légales</a></p>
                 </span>
             </div>
         </footer>
